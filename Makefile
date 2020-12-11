@@ -15,7 +15,7 @@ run:
 	docker run -it --rm -d -p 15000:8080 --name $(LOCAL_NAME) $(LOCAL_NAME):$(COMMIT_HASH)
 
 stop:
-	docker stop $(LOCAL_NAME)
+	docker stop $(LOCAL_NAME) || echo ":D"
 
 open:
 	open http://localhost:15000
