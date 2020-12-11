@@ -1,6 +1,6 @@
 COMMIT_HASH = $(shell git rev-parse HEAD)
 BUILD_TIME  = $(shell date +%F.%s)
-PROJECTS    ?= service
+PROJECTS    ?= thursday
 LOCAL_NAME  ?= snoh-aalegra
 
 all: login build tag push
@@ -25,7 +25,8 @@ tag:
 	$(foreach project, $(PROJECTS), docker tag $(LOCAL_NAME):$(COMMIT_HASH) 264318998405.dkr.ecr.us-west-2.amazonaws.com/$(project):$(COMMIT_HASH);)
 
 push:
-	$(foreach project, $(PROJECTS), docker push 264318998405.dkr.ecr.us-west-2.amazonaws.com/$(project);)
+	$(foreach project, $(PROJECTS), docker push 264318998405.dkr.ecr.us-west-2.amazonaws.com/$(project):current;)
+	$(foreach project, $(PROJECTS), docker push 264318998405.dkr.ecr.us-west-2.amazonaws.com/$(project):$(COMMIT_HASH);)
 
 blue green json:
 	cp index.$@.html index.html
