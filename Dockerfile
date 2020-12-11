@@ -14,5 +14,5 @@ FROM golang:1.13-alpine
 WORKDIR /app
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=builder /app/app .
-EXPOSE 3000
+EXPOSE 8080
 CMD [ "./app" ]
