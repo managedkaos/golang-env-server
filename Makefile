@@ -11,7 +11,7 @@ build:
 	docker build --build-arg COMMIT_HASH=$(COMMIT_HASH) --build-arg BUILD_TIME=$(BUILD_TIME) -t snoh-aalegra:$(COMMIT_HASH) .
 
 run:
-	docker run -it --rm -d -p 15000:3000--name snoh-aalegra snoh-aalegra
+	docker run -it --rm -d -p 15000:8080 --name snoh-aalegra snoh-aalegra
 
 open:
 	open http://localhost:15000
