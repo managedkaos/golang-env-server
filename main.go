@@ -8,7 +8,7 @@ import (
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("<title>Environment Variables</title>"))
-	w.Write([]byte("<h1>Environment Variables Blue</h1>"))
+	w.Write([]byte("<h1>Environment Variables Green!</h1>"))
 	w.Write([]byte("<table>"))
 	w.Write([]byte("<tr><th style='text-align:left'>KEY</th><th style='text-align:left'>VALUE</th></tr>"))
 	for _, element := range os.Environ() {
