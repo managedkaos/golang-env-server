@@ -1,6 +1,6 @@
 COMMIT_HASH = $(shell git rev-parse HEAD)
 BUILD_TIME  = $(shell date +%F.%s)
-PROJECTS    ?= thursday
+PROJECTS    ?= kitchen
 LOCAL_NAME  ?= snoh-aalegra
 
 all: login build tag push
