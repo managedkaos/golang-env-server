@@ -1,6 +1,6 @@
 COMMIT_HASH = $(shell git rev-parse HEAD)
 BUILD_TIME  = $(shell date +%F.%s)
-PROJECTS    ?= kitchen
+PROJECTS    ?= example
 LOCAL_NAME  ?= snoh-aalegra
 
 all: login build tag push
@@ -27,10 +27,3 @@ tag:
 push:
 	$(foreach project, $(PROJECTS), docker push 264318998405.dkr.ecr.us-west-2.amazonaws.com/$(project):current;)
 	$(foreach project, $(PROJECTS), docker push 264318998405.dkr.ecr.us-west-2.amazonaws.com/$(project):$(COMMIT_HASH);)
-
-blue green json:
-	cp index.$@.html index.html
-	git add .
-	git commit -m "Deploy $@"
-	git push
-

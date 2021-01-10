@@ -7,9 +7,7 @@ ARG COMMIT_HASH
 ENV COMMIT_HASH=${COMMIT_HASH}
 ARG BUILD_DATE
 ENV BUILD_DATE=${BUILD_DATE}
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
-    go build \
-    -o app
+RUN go get -u pack.ag/amqp && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o app
 FROM 264318998405.dkr.ecr.us-west-2.amazonaws.com/golang:1.13-alpine
 WORKDIR /app
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
