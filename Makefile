@@ -4,7 +4,7 @@ PROJECT     ?= highpoint
 ENVIRONMENT ?= development
 LOCAL_NAME  ?= snoh-aalegra
 REGISTRY    ?= 264318998405.dkr.ecr.us-west-2.amazonaws.com
-DOMAIN_NAME ?= aws.managedkaos.review
+DOMAIN ?= aws.managedkaos.review
 
 all: login build tag push
 
@@ -37,6 +37,6 @@ terraform:
 	make -C ../../Terraform-Modules/example/$(ENVIRONMENT)/ init deploy
 
 test:
-	./test.sh "https://$(PROJECT)-$(ENVIRONMENT).$(DOMAIN_NAME)"
+	./test.sh "https://$(PROJECT)-$(ENVIRONMENT).$(DOMAIN)"
 
 .PHONY: all everything login build run stop open tag push terraform test
