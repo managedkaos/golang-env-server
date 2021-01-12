@@ -1,11 +1,14 @@
 COMMIT_HASH = $(shell git rev-parse HEAD)
 BUILD_TIME  = $(shell date +%F.%s)
-PROJECTS    ?= highpoint
+PROJECT     ?= highpoint
 ENVIRONMENT ?= development
 LOCAL_NAME  ?= snoh-aalegra
 REGISTRY    ?= 264318998405.dkr.ecr.us-west-2.amazonaws.com
+DOMAIN_NAME ?= aws.managedkaos.review
 
 all: login build tag push
+
+everything: terraform all test
 
 login:
 	aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin $(REGISTRY)
@@ -23,9 +26,17 @@ open:
 	open http://localhost:15000
 
 tag:
-	$(foreach project, $(PROJECTS), docker tag $(LOCAL_NAME):$(COMMIT_HASH) $(REGISTRY)/$(project):$(ENVIRONMENT);)
-	$(foreach project, $(PROJECTS), docker tag $(LOCAL_NAME):$(COMMIT_HASH) $(REGISTRY)/$(project):$(COMMIT_HASH);)
+	docker tag $(LOCAL_NAME):$(COMMIT_HASH) $(REGISTRY)/$(PROJECT):$(ENVIRONMENT)
+	docker tag $(LOCAL_NAME):$(COMMIT_HASH) $(REGISTRY)/$(PROJECT):$(COMMIT_HASH)
 
 push:
-	$(foreach project, $(PROJECTS), docker push $(REGISTRY)/$(project):$(ENVIRONMENT);)
-	$(foreach project, $(PROJECTS), docker push $(REGISTRY)/$(project):$(COMMIT_HASH);)
+	docker push $(REGISTRY)/$(PROJECT):$(ENVIRONMENT)
+	docker push $(REGISTRY)/$(PROJECT):$(COMMIT_HASH)
+
+terraform:
+	make -C ../../Terraform-Modules/example/$(ENVIRONMENT)/ init deploy
+
+test:
+	./test.sh "https://$(PROJECT)-$(ENVIRONMENT).$(DOMAIN_NAME)"
+
+.PHONY: all everything login build run stop open tag push terraform test
