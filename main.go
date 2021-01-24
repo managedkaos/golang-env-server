@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/pyroscope-io/pyroscope/pkg/agent/profiler"
 	"net/http"
 	"os"
 	"strings"
@@ -20,6 +21,11 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	profiler.Start(profiler.Config{
+		ApplicationName: "backend.purchases",
+		ServerAddress:   "http://localhost:4040",
+	})
+
 	port := "8080"
 	mux := http.NewServeMux()
 
