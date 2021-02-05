@@ -11,6 +11,7 @@ RUN go get -u pack.ag/amqp && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o 
 FROM 264318998405.dkr.ecr.us-west-2.amazonaws.com/golang:1.13-alpine
 WORKDIR /app
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+RUN true
 COPY --from=builder /app/app .
 EXPOSE 8080
 CMD [ "./app" ]
