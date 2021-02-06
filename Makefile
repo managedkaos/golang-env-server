@@ -1,9 +1,9 @@
 COMMIT_HASH = $(shell git rev-parse HEAD)
 BUILD_TIME  = $(shell date +%F.%s)
 PROJECT     ?= highpoint
-ENVIRONMENT ?= development
+ENVIRONMENT ?= testing
 LOCAL_NAME  ?= snoh-aalegra
-REGISTRY    ?= 264318998405.dkr.ecr.us-west-2.amazonaws.com
+REGISTRY    ?= 264318998405.dkr.ecr.$(AWS_DEFAULT_REGION).amazonaws.com
 DOMAIN ?= aws.managedkaos.review
 
 all: login build tag push
@@ -11,7 +11,7 @@ all: login build tag push
 everything: terraform all test
 
 login:
-	aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin $(REGISTRY)
+	aws ecr get-login-password --region $(AWS_DEFAULT_REGION) | docker login --username AWS --password-stdin $(REGISTRY)
 
 build:
 	docker build --build-arg COMMIT_HASH=$(COMMIT_HASH) --build-arg BUILD_TIME=$(BUILD_TIME) -t $(LOCAL_NAME):$(COMMIT_HASH) .
