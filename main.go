@@ -23,6 +23,6 @@ func main() {
 	port := "8080"
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("/", indexHandler)
+	mux.HandleFunc("/health", indexHandler)
 	http.ListenAndServe(":"+port, mux)
 }
